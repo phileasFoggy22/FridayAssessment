@@ -1,27 +1,26 @@
 var mongoose = require('mongoose');
-
-
+var uniqueValidator = require('mongoose-unique-validator');
 var UserSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     email: {
         type: String,
         required: true,
-        index: {
-            unique: true
-        }
+        index: true,
+        unique: true
     },
     username: {
         type: String,
         required: true,
-        index: {
-            unique: true
-        }
+        index: true,
+        unique: true
     },
     password: {
         type: String,
         required: true
     }
 });
+
+UserSchema.plugin(uniqueValidator);
 
 const bcrypt = require("bcrypt");
 var SALT_WORK_FACTOR = 10;
@@ -47,8 +46,9 @@ UserSchema.pre('save', function (next) {
     });
 });
 
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+
+UserSchema.methods.comparePassword = function (userPassword, cb) {
+    bcrypt.compare(userPassword, this.password, function (err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });
