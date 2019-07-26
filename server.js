@@ -7,6 +7,10 @@ const uri = 'mongodb://localhost/mongoose_basics';
 const create = require("./routes/create.js");
 const get = require("./routes/get.js");
 const login = require("./routes/login.js");
+const resCreate = require("./routes/restricted/create.js");
+const resDelete = require("./routes/restricted/delete.js");
+const resGet = require("./routes/restricted/get.js");
+const resUpdate = require("./routes/restricted/update.js");
 
 
 const app = express();
@@ -18,6 +22,10 @@ app.use(bodyParser.json());
 app.use("/create", create);
 app.use("/get", get);
 app.use("/login", login);
+app.use("/resCreate", resCreate);
+app.use("/resDelete", resDelete);
+app.use("/resGet", resGet);
+app.use("/resUpdate", resUpdate);
 mongoose.connect(uri, {
     useNewUrlParser: true
 }).then(
